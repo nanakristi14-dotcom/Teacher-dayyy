@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher's Day Surprise</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #d8b4f8, #ffb6d9, #ffffff);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #1af44d;
+            text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .greeting-box {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #222;
+            text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            animation: fadeIn 2s ease;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card1,
+        .card2 {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            animation: fadeIn 1s ease;
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .card1 {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 20px;
+            min-height: 280px;
+        }
+
+        .teachers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .teachers-list button {
+            padding: 12px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .teachers-list button:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        }
+
+        .image-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
+            overflow: hidden;
+            min-height: 220px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            border-radius: 18px;
+            animation: zoomIn 0.8s ease;
+        }
+
+        .card2 {
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+            animation: slideUp 1s ease forwards;
+        }
+
+        .card2 h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #4a148c;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .card2 p {
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card1 {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .teachers-list {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .teachers-list button {
+                flex: 1 1 45%;
+                margin: 5px;
+            }
+
+            .image-box {
+                min-height: 180px;
+            }
+
+            .greeting-box {
+                font-size: 1rem;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            .teachers-list button {
+                flex: 1 1 100%;
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            .greeting-box {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Ribbons */
+        .ribbon {
+            position: fixed;
+            top: -50px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            opacity: 0.9;
+            animation: fallSide linear forwards;
+            z-index: 0;
+        }
+
+        @keyframes fallSide {
+            0% {
+                transform: translateX(0) translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateX(50px) translateY(50vh) rotate(360deg);
+            }
+
+            100% {
+                transform: translateX(-50px) translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Clouds & Sun */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: floatClouds 70s linear infinite;
+            filter: blur(2px);
+        }
+
+        .cloud.small {
+            width: 60px;
+            height: 60px;
+            top: 50px;
+            left: 10%;
+        }
+
+        .cloud.medium {
+            width: 100px;
+            height: 100px;
+            top: 120px;
+            left: 40%;
+        }
+
+        .cloud.large {
+            width: 160px;
+            height: 160px;
+            top: 200px;
+            left: 70%;
+        }
+
+        .sun {
+            position: absolute;
+            top: 40px;
+            right: 80px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #fff78a, #ffcf33);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(255, 223, 100, 0.8);
+            animation: pulse 5s infinite;
+        }
+
+        @keyframes floatClouds {
+            from {
+                transform: translateX(-250px);
+            }
+
+            to {
+                transform: translateX(100vw);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(60px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cloud small"></div>
+    <div class="cloud medium"></div>
+    <div class="cloud large"></div>
+    <div class="sun"></div>
+
+    <h1>🎉 Happy Teacher's Day 🎉</h1>
+
+    <div class="greeting-box">
+        <h3>🌸 Dear Teachers, wishing you a Happy Teacher's Day! 🎊</h3>
+        <br /> 🌟🌟🌟 💖💖💖 🌟🌟🌟 <br /><br />
+        🌸🎊 "Dear Sir Birgdao, Sir Bithwn, Sir Jack, you are more than just teachers - you are mentors, motivators,
+        and guiding lights of our journey. Thank you for your patience, knowledge, and encouragement. With love and
+        respect, 💖 I wish you a very Happy Teacher’s Day! 🎉🎉"
+    </div>
+
+    <div class="container">
+        <div class="card1">
+            <div class="teachers-list">
+                <button onclick="showTeacher(1)">Birgdao Sir</button>
+                <button onclick="showTeacher(2)">Bithwn Sir</button>
+                <button onclick="showTeacher(3)">Jack Sir</button>
+            </div>
+            <div class="image-box">
+                <img id="teacher-img" src="" alt="Teacher Image">
+            </div>
+        </div>
+
+        <div class="card2" id="card2">
+            <h2 id="teacher-name">Select a Teacher</h2>
+            <p id="teacher-message">Teacher greetings and wishes will appear here. Scroll to read more…</p>
+        </div>
+
+        <!-- Final Greeting -->
+        <div class="greeting-box">
+            <h1> 🌸 Thank You 🌸</h1>
+            " Dear teachers, I want to thank you for always guiding me and making our classes so memorable. I laugh at
+            your jokes, sometimes feel sleepy in class, and sometimes even get scared when you are strict, but I really
+            appreciate everything you do. I have learned so much from each of you — not just the subjects, but also how
+            to stay disciplined, focused, and sometimes how to laugh at myself. Apka sukriyaa, Gurus! 🙏 You make
+            learning fun, interesting, and unforgettable. Happy Teachers’ Day! "
+
+            <div style="margin:20px 0;">
+                <video src="img/Tkgif.mp4" autoplay loop muted playsinline
+                    style="max-width:100%; border-radius:12px;"></video>
+            </div>
+            <h3> 💖 <i> This WebPage Design By <strong> Kristi </strong> 💖 </h3>
+            <h4> 🎊 <i> For The Special Moment of Teacher Day </i> 🎊 </h4>
+        </div>
+    </div>
+
+    <script>
+        const teacherData = {
+            1: {
+                name: "Birgdao Sir",
+                img: "img/BirgdaoSir.jpg",
+                msg: "🌹 Dear Sir Birgdao, I know you are strict in school — so strict that when students just hear your name, bacche literally ‘hil jaate hain’. But at coaching, you suddenly become so open and friendly that we forget you are the same strict teacher from school. That balance — strictness in class and friendliness outside — makes your teaching unforgettable, and it’s the reason we respect you so much. 🌟"
+            },
+            2: {
+                name: "Bithwn Sir",
+                img: "img/BithwnSir.jpg",
+                msg: "✨ Dear Sir Bithwn, when we take your class in coaching, we literally start feeling sleepy sometimes 😅. The way you begin explaining in a high voice and then slowly, slowly it goes softer… it feels like a natural ‘lori’ (lullaby) for us 💤. Still, that calm and smooth style of teaching makes your class unique — even if we feel sleepy, we can’t stop enjoying the way you explain! 💐"
+            },
+            3: {
+                name: "Jack Sir",
+                img: "img/JackSir.jpg",
+                msg: "💖 Dear Sir Jack, your classes are something else! You keep explaining everything fluently, nonstop, and it feels like the chapter just keeps moving with you. And then come your famous jokes — sometimes they hit a little too hard 🤭, but honestly, that’s what makes your class so entertaining. Even the toughest topics don’t feel scary because your flowing style and witty humor make everything lighter. Students often joke, ‘Jack Sir ka class nonstop hai, jokes tez hain, aur thodi dard bhi free mein mil jaati hai’ 😅. That perfect mix of flow, fun, and playful roasting makes your class unforgettable. 🎊"
+            }
+        };
+
+        function showTeacher(id) {
+            const teacher = teacherData[id];
+            const imgEl = document.getElementById('teacher-img');
+            const card2 = document.getElementById('card2');
+            const nameEl = document.getElementById('teacher-name');
+            const msgEl = document.getElementById('teacher-message');
+
+            imgEl.src = teacher.img;
+            imgEl.style.display = 'block';
+
+            nameEl.textContent = teacher.name;
+            msgEl.textContent = teacher.msg;
+            card2.style.display = 'block';
+
+            launchRibbons();
+        }
+
+        function launchRibbons() {
+            for (let i = 0; i < 20; i++) {
+                let ribbon = document.createElement('div');
+                ribbon.className = 'ribbon';
+                ribbon.style.left = Math.random() * 100 + 'vw';
+                ribbon.style.background = `linear-gradient(45deg, hsl(${Math.random() * 360}, 90%, 60%), hsl(${Math.random() * 360}, 90%, 70%))`;
+                ribbon.style.animationDuration = (4 + Math.random() * 4) + 's';
+                document.body.appendChild(ribbon);
+
+                setTimeout(() => {
+                    ribbon.remove();
+                }, 9000);
+            }
+        }
+    </script>
+</body>
+
+</html>
